@@ -143,6 +143,13 @@ function initPortfolioFilters() {
           }, 200);
         }
       });
+
+      // Synchronize ScrollTrigger layout after card transition
+      if (typeof ScrollTrigger !== 'undefined') {
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 220);
+      }
     });
   });
 }

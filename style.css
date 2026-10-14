@@ -223,7 +223,7 @@ nav {
   height: 100%;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.9;
+  opacity: 0.75;
 }
 
 .hero .container {
@@ -668,12 +668,14 @@ nav {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: var(--transition);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease, box-shadow 0.28s ease;
+  will-change: transform;
 }
 
 .project-card:hover {
-  border-color: var(--border-hover);
-  transform: translateY(-2px);
+  border-color: rgba(16, 185, 129, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(16, 185, 129, 0.15);
 }
 
 .project-thumb {
@@ -685,15 +687,17 @@ nav {
   border-bottom: 1px solid var(--border);
 }
 
-.project-thumb img {
+.project-thumb img,
+.project-thumb video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.project-card:hover .project-thumb img {
-  transform: scale(1.02);
+.project-card:hover .project-thumb img,
+.project-card:hover .project-thumb video {
+  transform: scale(1.03);
 }
 
 .project-body {
