@@ -208,9 +208,27 @@ nav {
    HERO SECTION
    ========================================================================== */
 .hero {
+  position: relative;
+  overflow: hidden;
   padding-top: 130px;
   padding-bottom: 70px;
   border-bottom: 1px solid var(--border);
+}
+
+#hero-three-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.9;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-grid {
