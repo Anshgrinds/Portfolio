@@ -494,6 +494,7 @@
       <!-- Breakdown Navigation Tabs -->
       <div class="breakdown-tabs" role="tablist">
         <button class="breakdown-tab-btn active" data-breakdown="can">🍺 Tuborg Rolling Can</button>
+        <button class="breakdown-tab-btn" data-breakdown="hut">🏡 Ancient Forest Hut</button>
         <button class="breakdown-tab-btn" data-breakdown="asteroid">☄️ Asteroid Impact VFX</button>
         <button class="breakdown-tab-btn" data-breakdown="island">🏝️ Floating Island Archipelago</button>
       </div>
@@ -536,6 +537,45 @@
             <a href="assets/blender/tuborg_can_studio.blend" download class="btn btn-secondary" style="font-family: var(--font-mono); font-size: 0.82rem;">
               Download .blend (3.3 MB) ↓
             </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: Ancient Forest Hut -->
+      <div class="comparison-wrapper breakdown-panel" id="breakdown-hut" style="display: none;">
+        <div class="comparison-container" title="Drag to compare">
+          <!-- Base: Viewport -->
+          <div class="comparison-base">
+            <img src="assets/blender/forest_hut_viewport.png" alt="Ancient Forest Hut Viewport Geometry Blocking">
+            <span class="comparison-label label-right">Viewport Geometry</span>
+          </div>
+          <!-- Overlay: Render -->
+          <div class="comparison-overlay">
+            <img src="assets/blender/forest_hut_render.png" alt="Ancient Forest Hut Cycles Golden Hour Render">
+            <span class="comparison-label label-left">Cycles OptiX</span>
+          </div>
+          <!-- Handle -->
+          <div class="comparison-slider" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5V7zm8 0v10l5-5-5-5z"/></svg>
+          </div>
+        </div>
+
+        <div class="comparison-details">
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <span class="chip">Blender 5.2</span>
+            <span class="chip">Cycles OptiX</span>
+            <span class="chip">PBR Water Physics</span>
+            <span class="chip">Graswald Undergrowth</span>
+            <span class="chip">AgX Golden Hour</span>
+          </div>
+          <h3>Ancient Forest Hut — Golden Hour River Landscape</h3>
+          <p>
+            Drag to compare the raw geometry blocking and procedural undergrowth distribution against the final golden-hour raytraced lighting pass. Features high-density Graswald pine foliage scattering, weathered timber architectural topology, hand-crafted branch bridge, and real-time PBR water surface reflections.
+          </p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button class="btn btn-secondary" data-lightbox data-lightbox-src="assets/blender/forest_hut_render.png" data-lightbox-title="Ancient Forest Hut — Cycles OptiX Golden Hour Render" data-lightbox-desc="Full resolution render from world.blend in Blender 5.2 (Cycles OptiX GPU on NVIDIA RTX 5060)">
+              Inspect Full-Res Render ↗
+            </button>
           </div>
         </div>
       </div>
