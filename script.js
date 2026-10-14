@@ -6,6 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initScrollProgress();
   initComparisonSlider();
+  initBreakdownTabs();
   initPortfolioFilters();
   initLightbox();
   initEmailCopy();
@@ -30,43 +31,85 @@ function initScrollProgress() {
 }
 
 /* ========================================================
-   2. 3D Cycles vs Viewport Comparison Slider
+   2. 3D Cycles vs Viewport Comparison Sliders
 ======================================================== */
 function initComparisonSlider() {
-  const container = document.querySelector('.comparison-container');
-  const slider = document.querySelector('.comparison-slider');
-  const overlay = document.querySelector('.comparison-overlay');
-  if (!container || !slider || !overlay) return;
+  const containers = document.querySelectorAll('.comparison-container');
+  if (!containers.length) return;
 
-  let isDragging = false;
+  containers.forEach(container => {
+    const slider = container.querySelector('.comparison-slider');
+    const overlay = container.querySelector('.comparison-overlay');
+    if (!slider || !overlay) return;
 
-  function updateSlider(x) {
-    const rect = container.getBoundingClientRect();
-    let pos = (x - rect.left) / rect.width;
-    if (pos < 0.02) pos = 0.02;
-    if (pos > 0.98) pos = 0.98;
-    const percentage = pos * 100;
-    overlay.style.width = `${percentage}%`;
-    slider.style.left = `${percentage}%`;
-  }
+    let isDragging = false;
 
-  slider.addEventListener('mousedown', () => (isDragging = true));
-  window.addEventListener('mouseup', () => (isDragging = false));
-  window.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    updateSlider(e.clientX);
+    function updateSlider(x) {
+      const rect = container.getBoundingClientRect();
+      let pos = (x - rect.left) / rect.width;
+      if (pos < 0.02) pos = 0.02;
+      if (pos > 0.98) pos = 0.98;
+      const percentage = pos * 100;
+      overlay.style.width = `${percentage}%`;
+      slider.style.left = `${percentage}%`;
+    }
+
+    slider.addEventListener('mousedown', (e) => {
+      e.stopPropagation();
+      isDragging = true;
+    });
+    window.addEventListener('mouseup', () => (isDragging = false));
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      updateSlider(e.clientX);
+    });
+
+    // Touch
+    slider.addEventListener('touchstart', (e) => {
+      e.stopPropagation();
+      isDragging = true;
+    }, { passive: true });
+    window.addEventListener('touchend', () => (isDragging = false));
+    window.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      updateSlider(e.touches[0].clientX);
+    }, { passive: true });
+
+    container.addEventListener('click', (e) => {
+      updateSlider(e.clientX);
+    });
   });
+}
 
-  // Touch
-  slider.addEventListener('touchstart', () => (isDragging = true), { passive: true });
-  window.addEventListener('touchend', () => (isDragging = false));
-  window.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
-    updateSlider(e.touches[0].clientX);
-  }, { passive: true });
+/* ========================================================
+   2b. 3D Technical Breakdown Tab Switcher
+======================================================== */
+function initBreakdownTabs() {
+  const tabBtns = document.querySelectorAll('.breakdown-tab-btn');
+  const panels = document.querySelectorAll('.breakdown-panel');
+  if (!tabBtns.length || !panels.length) return;
 
-  container.addEventListener('click', (e) => {
-    updateSlider(e.clientX);
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const targetId = `breakdown-${btn.getAttribute('data-breakdown')}`;
+
+      panels.forEach(panel => {
+        if (panel.id === targetId) {
+          panel.style.display = 'grid';
+          panel.style.opacity = '0';
+          panel.style.transform = 'translateY(8px)';
+          setTimeout(() => {
+            panel.style.opacity = '1';
+            panel.style.transform = 'translateY(0)';
+          }, 30);
+        } else {
+          panel.style.display = 'none';
+        }
+      });
+    });
   });
 }
 

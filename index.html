@@ -482,16 +482,108 @@
     </div>
   </section>
 
-  <!-- 3D Breakdown: Cycles vs Viewport Comparison -->
+  <!-- 3D Breakdown: Cycles vs Viewport Comparisons -->
   <section id="3d" class="section">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Technical Breakdown</span>
-        <h2 class="section-title">3D Environment — Viewport vs Cycles Render</h2>
-        <p class="section-subtitle">Drag the divider to compare the raw geometry blocking against the final raytraced lighting pass.</p>
+        <h2 class="section-title">3D Production — Viewport vs Cycles Raytracing</h2>
+        <p class="section-subtitle">Drag the interactive slider to compare raw geometry blocking & wireframe topology against final Cycles OptiX raytraced lighting passes.</p>
       </div>
 
-      <div class="comparison-wrapper">
+      <!-- Breakdown Navigation Tabs -->
+      <div class="breakdown-tabs" role="tablist">
+        <button class="breakdown-tab-btn active" data-breakdown="can">🍺 Tuborg Rolling Can</button>
+        <button class="breakdown-tab-btn" data-breakdown="asteroid">☄️ Asteroid Impact VFX</button>
+        <button class="breakdown-tab-btn" data-breakdown="island">🏝️ Floating Island Archipelago</button>
+      </div>
+
+      <!-- Panel 1: Tuborg Can Commercial (Active by Default) -->
+      <div class="comparison-wrapper breakdown-panel active" id="breakdown-can">
+        <div class="comparison-container portrait" title="Drag to compare">
+          <!-- Base: Viewport -->
+          <div class="comparison-base">
+            <img src="assets/blender/tuborg_can_viewport.png" alt="Tuborg Can Viewport Geometry">
+            <span class="comparison-label label-right">Viewport Geometry</span>
+          </div>
+          <!-- Overlay: Render -->
+          <div class="comparison-overlay">
+            <img src="assets/blender/tuborg_can_hero.png" alt="Tuborg Can Cycles OptiX Render">
+            <span class="comparison-label label-left">Cycles OptiX</span>
+          </div>
+          <!-- Handle -->
+          <div class="comparison-slider" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5V7zm8 0v10l5-5-5-5z"/></svg>
+          </div>
+        </div>
+
+        <div class="comparison-details">
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <span class="chip">Blender 5.2</span>
+            <span class="chip">Cycles OptiX</span>
+            <span class="chip">1,812 Droplets</span>
+            <span class="chip">Fluid Mesh Crown</span>
+            <span class="chip">AgX Color</span>
+          </div>
+          <h3>Tuborg Can — High-Speed Commercial & Fluid Splash</h3>
+          <p>
+            Drag to compare the raw geometry blocking against the final raytraced pass. The scene features 1,812 physical 3D condensation water droplets clinging to the can body, an organic multi-tendril fluid splash crown erupting from the floor contact zone, and luxury high-key reflective floor caustics rendered with Cycles OptiX on an NVIDIA RTX 5060.
+          </p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button class="btn btn-secondary" data-lightbox data-lightbox-src="assets/blender/tuborg_can_hero.png" data-lightbox-title="Tuborg Can — Cycles OptiX Hero Render" data-lightbox-desc="Full resolution render from tuborg_can_studio.blend in Blender 5.2">
+              Inspect Full-Res Render ↗
+            </button>
+            <a href="assets/blender/tuborg_can_studio.blend" download class="btn btn-secondary" style="font-family: var(--font-mono); font-size: 0.82rem;">
+              Download .blend (3.3 MB) ↓
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: Asteroid Impact VFX -->
+      <div class="comparison-wrapper breakdown-panel" id="breakdown-asteroid" style="display: none;">
+        <div class="comparison-container" title="Drag to compare">
+          <!-- Base: Viewport -->
+          <div class="comparison-base">
+            <img src="assets/blender/asteroid_viewport.png" alt="Asteroid Impact Viewport Blocking">
+            <span class="comparison-label label-right">Viewport Geometry</span>
+          </div>
+          <!-- Overlay: Render -->
+          <div class="comparison-overlay">
+            <img src="assets/blender/asteroid_impact_render.png" alt="Asteroid Cycles Detonation Render">
+            <span class="comparison-label label-left">Cycles OptiX</span>
+          </div>
+          <!-- Handle -->
+          <div class="comparison-slider" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5V7zm8 0v10l5-5-5-5z"/></svg>
+          </div>
+        </div>
+
+        <div class="comparison-details">
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <span class="chip">Blender 5.2</span>
+            <span class="chip">Cycles OptiX</span>
+            <span class="chip">Blackbody Magma</span>
+            <span class="chip">Pyroclastic VFX</span>
+            <span class="chip">100+ Ejecta Shards</span>
+          </div>
+          <h3>Asteroid Impact — Cinematic Detonation VFX</h3>
+          <p>
+            Drag to reveal the transition from raw crater mesh displacement and high-poly asteroid blocking to the final hyper-incandescent explosion pass. Driven by blackbody radiation emissions, volumetric pyroclastic fire, and high-energy ballistic ejecta shards.
+          </p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button class="btn btn-secondary" data-lightbox data-lightbox-src="assets/blender/asteroid_impact_render.png" data-lightbox-title="Asteroid Impact — Cinematic Detonation VFX" data-lightbox-desc="Rendered from Asteroid.blend in Blender 5.2 (Cycles OptiX GPU)">
+              Inspect Full-Res Render ↗
+            </button>
+            <a href="assets/blender/Asteroid.blend" download class="btn btn-secondary" style="font-family: var(--font-mono); font-size: 0.82rem;">
+              Download .blend (9.0 MB) ↓
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 3: Floating Island Archipelago -->
+      <div class="comparison-wrapper breakdown-panel" id="breakdown-island" style="display: none;">
         <div class="comparison-container" title="Drag to compare">
           <!-- Base: Viewport -->
           <div class="comparison-base">
@@ -514,6 +606,7 @@
             <span class="chip">Blender 5.2</span>
             <span class="chip">Cycles Raytracing</span>
             <span class="chip">Procedural Shading</span>
+            <span class="chip">Foliage Clustering</span>
           </div>
           <h3>Floating Island Archipelago</h3>
           <p>

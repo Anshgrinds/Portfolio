@@ -539,6 +539,55 @@ nav {
   line-height: 1.6;
 }
 
+/* Multi-Breakdown Tabs & Panels */
+.breakdown-tabs {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.breakdown-tab-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.breakdown-tab-btn:hover {
+  color: var(--text-main);
+  border-color: var(--border-hover);
+  background: var(--bg-card-hover);
+}
+
+.breakdown-tab-btn.active {
+  background: var(--text-main);
+  color: var(--bg-main);
+  border-color: var(--text-main);
+  font-weight: 600;
+}
+
+.breakdown-panel {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.comparison-container.portrait {
+  aspect-ratio: 9 / 16;
+  max-height: 540px;
+  width: 100%;
+  max-width: 330px;
+  margin: 0 auto;
+}
+
 /* ==========================================================================
    PORTFOLIO FILTER TABS & CARDS
    ========================================================================== */
