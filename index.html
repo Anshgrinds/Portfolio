@@ -122,10 +122,10 @@
 
       <!-- Filter Tabs -->
       <div class="filter-tabs" role="tablist">
-        <button class="filter-btn active" data-filter="all">All <span class="filter-count">17</span></button>
+        <button class="filter-btn active" data-filter="all">All <span class="filter-count">19</span></button>
         <button class="filter-btn" data-filter="design">Brand & Design <span class="filter-count">3</span></button>
-        <button class="filter-btn" data-filter="web">Web Development <span class="filter-count">4</span></button>
-        <button class="filter-btn" data-filter="3d">3D Art <span class="filter-count">7</span></button>
+        <button class="filter-btn" data-filter="web">Web Development <span class="filter-count">5</span></button>
+        <button class="filter-btn" data-filter="3d">3D Art <span class="filter-count">8</span></button>
         <button class="filter-btn" data-filter="systems">Systems & C++ <span class="filter-count">2</span></button>
       </div>
 
@@ -272,7 +272,30 @@
           </div>
         </article>
 
-        <!-- 8. 3D: Tuborg Can High-Speed Rolling Commercial -->
+        <!-- 8. Web: Chess AI Coach & Blunder Analysis Engine -->
+        <article class="project-card" data-category="web">
+          <div class="project-thumb">
+            <img src="assets/web/chess_ai_coach.jpg" alt="Chess AI Engine & Tactical Blunder Coach">
+          </div>
+          <div class="project-body">
+            <div class="project-category">AI Engineering • Web Application</div>
+            <h3 class="project-title">Chess AI Coach & Blunder Analysis Engine</h3>
+            <p class="project-desc">Interactive Human vs AI chess engine featuring configurable Minimax depth (up to ~2100 ELO), alpha-beta pruning, quiescence search, piece-square heuristics, and automated post-game tactical blunder diagnostics with visual move arrows and interactive puzzle training.</p>
+            <div class="project-tags">
+              <span class="chip">JavaScript ES6</span>
+              <span class="chip">Minimax AI</span>
+              <span class="chip">Alpha-Beta</span>
+              <span class="chip">Tactical Coach</span>
+              <span class="chip">Web Audio API</span>
+            </div>
+            <div class="project-footer">
+              <a href="https://anshgrinds.github.io/chess-ai-coach/" target="_blank" rel="noopener" class="project-link">Live Demo ↗</a>
+              <a href="https://github.com/Anshgrinds/chess-ai-coach" target="_blank" rel="noopener" class="project-link">GitHub Repo ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 9. 3D: Tuborg Can High-Speed Rolling Commercial -->
         <article class="project-card" data-category="3d">
           <div class="project-thumb">
             <video src="assets/blender/tuborg_can_commercial.mp4" poster="assets/blender/tuborg_can_hero.png" autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; display: block;"></video>
@@ -295,7 +318,31 @@
           </div>
         </article>
 
-        <!-- 9. 3D: Ancient Forest Hut & River Landscape -->
+        <!-- 10. 3D: Max Tiger Energy Drink Commercial -->
+        <article class="project-card" data-category="3d">
+          <div class="project-thumb">
+            <video src="assets/blender/max_tiger_commercial.mp4" poster="assets/blender/max_tiger_commercial_hero.png" autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; display: block;"></video>
+          </div>
+          <div class="project-body">
+            <div class="project-category">Commercial CGI & Product Animation • Blender 5.2</div>
+            <h3 class="project-title">Max Tiger Energy Drink — High-Voltage CGI Commercial</h3>
+            <p class="project-desc">Cinematic 16:9 commercial animation featuring 420 physical condensation droplets, animated heartbeat pulse glow along volcanic basalt fissures, ice crystal caustics, and raytraced Cycles OptiX lighting.</p>
+            <div class="project-tags">
+              <span class="chip">Blender 5.2</span>
+              <span class="chip">Cycles OptiX</span>
+              <span class="chip">420 Fluid Droplets</span>
+              <span class="chip">Pulse Glow VFX</span>
+              <span class="chip">AgX Punchy</span>
+              <span class="chip">16:9 Cinema</span>
+            </div>
+            <div class="project-footer">
+              <a href="#" class="project-link" data-lightbox data-lightbox-src="assets/blender/max_tiger_commercial_hero.png" data-lightbox-title="Max Tiger Energy Drink — High-Voltage Commercial Hero" data-lightbox-desc="Rendered from max_tiger_commercial.blend in Blender 5.2 (Cycles OptiX GPU on NVIDIA RTX 5060)">View Full Render ↗</a>
+              <a href="assets/blender/max_tiger_commercial.blend" download class="project-link" style="color: var(--text-muted); font-family: var(--font-mono); font-size: 0.8rem;">max_tiger_commercial.blend (312 KB) ↓</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 11. 3D: Ancient Forest Hut & River Landscape -->
         <article class="project-card" data-category="3d">
           <div class="project-thumb">
             <img src="assets/blender/forest_hut_render.png" alt="Ancient Forest Hut & River Landscape">
@@ -497,6 +544,7 @@
       <!-- Breakdown Navigation Tabs -->
       <div class="breakdown-tabs" role="tablist">
         <button class="breakdown-tab-btn active" data-breakdown="can">🍺 Tuborg Rolling Can</button>
+        <button class="breakdown-tab-btn" data-breakdown="tiger">⚡ Max Tiger Energy</button>
         <button class="breakdown-tab-btn" data-breakdown="hut">🏡 Ancient Forest Hut</button>
         <button class="breakdown-tab-btn" data-breakdown="asteroid">☄️ Asteroid Impact VFX</button>
         <button class="breakdown-tab-btn" data-breakdown="island">🏝️ Floating Island Archipelago</button>
@@ -544,7 +592,49 @@
         </div>
       </div>
 
-      <!-- Panel 2: Ancient Forest Hut -->
+      <!-- Panel 2: Max Tiger Energy Commercial -->
+      <div class="comparison-wrapper breakdown-panel" id="breakdown-tiger" style="display: none;">
+        <div class="comparison-container" title="Drag to compare">
+          <!-- Base: Viewport -->
+          <div class="comparison-base">
+            <img src="assets/blender/max_tiger_commercial_viewport.png" alt="Max Tiger Can Viewport Geometry">
+            <span class="comparison-label label-right">Viewport Geometry</span>
+          </div>
+          <!-- Overlay: Render -->
+          <div class="comparison-overlay">
+            <img src="assets/blender/max_tiger_commercial_hero.png" alt="Max Tiger Can Cycles OptiX Render">
+            <span class="comparison-label label-left">Cycles OptiX</span>
+          </div>
+          <!-- Handle -->
+          <div class="comparison-slider" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5V7zm8 0v10l5-5-5-5z"/></svg>
+          </div>
+        </div>
+
+        <div class="comparison-details">
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <span class="chip">Blender 5.2</span>
+            <span class="chip">Cycles OptiX</span>
+            <span class="chip">420 Droplets</span>
+            <span class="chip">Basalt Fissure Glow</span>
+            <span class="chip">AgX Punchy</span>
+          </div>
+          <h3>Max Tiger Energy Drink — High-Voltage Commercial & Environment</h3>
+          <p>
+            Drag to compare raw object workbench topology against the final raytraced frame. Features 420 procedural surface condensation beads with drip trails, physically modeled aluminum can body with custom UV printed branding, procedural crystal ice blocks, and an animated pulsating energy fissure emitting an intense amber surge across volcanic basalt rock.
+          </p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button class="btn btn-secondary" data-lightbox data-lightbox-src="assets/blender/max_tiger_commercial_hero.png" data-lightbox-title="Max Tiger Energy — Cycles OptiX Hero Render" data-lightbox-desc="Full resolution render from max_tiger_commercial.blend in Blender 5.2 (Cycles OptiX GPU on NVIDIA RTX 5060)">
+              Inspect Full-Res Render ↗
+            </button>
+            <a href="assets/blender/max_tiger_commercial.blend" download class="btn btn-secondary" style="font-family: var(--font-mono); font-size: 0.82rem;">
+              Download .blend (312 KB) ↓
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 3: Ancient Forest Hut -->
       <div class="comparison-wrapper breakdown-panel" id="breakdown-hut" style="display: none;">
         <div class="comparison-container" title="Drag to compare">
           <!-- Base: Viewport -->
