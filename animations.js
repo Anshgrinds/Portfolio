@@ -30,13 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ==========================================================================
-   1. THREE.JS INTERACTIVE 3D HERO GYROSCOPE & STELLAR FIELD
+   1. THREE.JS INTERACTIVE 3D HERO CANVAS (WIREFRAME ICOSAHEDRON & CORE)
    ========================================================================== */
 function initThreeJSHero() {
   const canvas = document.getElementById('hero-three-canvas');
   const heroSection = document.getElementById('home');
   if (!canvas || !heroSection) return;
 
+  // Safe dimensions
   let width = Math.max(heroSection.clientWidth || window.innerWidth, 320);
   let height = Math.max(heroSection.clientHeight || window.innerHeight, 320);
 
@@ -59,222 +60,104 @@ function initThreeJSHero() {
 
   // Scene & Camera
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-  camera.position.set(0, 0, 24);
+  const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
+  camera.position.z = 24;
 
-  // ------------------------------------------------------------------------
-  // A. 3D GYROSCOPE CORE GROUP
-  // ------------------------------------------------------------------------
-  const gyroGroup = new THREE.Group();
-  scene.add(gyroGroup);
-
-  function updateGyroPosition() {
-    if (window.innerWidth > 960) {
-      gyroGroup.position.set(4.5, 0.6, 0);
-    } else {
-      gyroGroup.position.set(0, -0.5, -2);
-    }
-  }
-  updateGyroPosition();
-
-  // 1. Central Faceted Icosahedron (Solid PBR Core)
-  const icoGeo = new THREE.IcosahedronGeometry(2.3, 1);
-  const icoMat = new THREE.MeshStandardMaterial({
-    color: 0x09090c,
-    roughness: 0.15,
-    metalness: 0.85,
-    flatShading: true,
-    polygonOffset: true,
-    polygonOffsetFactor: 1,
-    polygonOffsetUnits: 1
-  });
-  const icoMesh = new THREE.Mesh(icoGeo, icoMat);
-  gyroGroup.add(icoMesh);
-
-  // 2. Wireframe Lattice Overlay
-  const wireMat = new THREE.MeshBasicMaterial({
-    color: 0x10b981,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.45
-  });
-  const wireMesh = new THREE.Mesh(icoGeo, wireMat);
-  gyroGroup.add(wireMesh);
-
-  // 3. Gimbal Ring 1: Cyan Orbit
-  const ring1Geo = new THREE.TorusGeometry(3.6, 0.038, 16, 100);
-  const ring1Mat = new THREE.MeshStandardMaterial({
-    color: 0x38bdf8,
-    emissive: 0x38bdf8,
-    emissiveIntensity: 0.4,
-    roughness: 0.2,
-    metalness: 0.9
-  });
-  const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
-  gyroGroup.add(ring1);
-
-  // 4. Gimbal Ring 2: Emerald Inclined Orbit
-  const ring2Geo = new THREE.TorusGeometry(4.3, 0.038, 16, 100);
-  const ring2Mat = new THREE.MeshStandardMaterial({
-    color: 0x10b981,
-    emissive: 0x10b981,
-    emissiveIntensity: 0.4,
-    roughness: 0.2,
-    metalness: 0.9
-  });
-  const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
-  ring2.rotation.x = Math.PI / 3;
-  gyroGroup.add(ring2);
-
-  // 5. Gimbal Ring 3: Deep Slate Outer Horizon
-  const ring3Geo = new THREE.TorusGeometry(5.0, 0.024, 16, 120);
-  const ring3Mat = new THREE.MeshBasicMaterial({
-    color: 0x71717a,
-    transparent: true,
-    opacity: 0.35
-  });
-  const ring3 = new THREE.Mesh(ring3Geo, ring3Mat);
-  ring3.rotation.y = Math.PI / 4;
-  gyroGroup.add(ring3);
-
-  // 6. Orbiting Celestial Satellites
-  const satellites = [];
-  const satCount = 4;
-  for (let s = 0; s < satCount; s++) {
-    const satGeo = new THREE.OctahedronGeometry(0.22, 0);
-    const satColor = s % 2 === 0 ? 0x10b981 : 0x38bdf8;
-    const satMat = new THREE.MeshStandardMaterial({
-      color: satColor,
-      emissive: satColor,
-      emissiveIntensity: 0.7,
-      roughness: 0.15,
-      metalness: 0.9
-    });
-    const satMesh = new THREE.Mesh(satGeo, satMat);
-    gyroGroup.add(satMesh);
-    satellites.push({
-      mesh: satMesh,
-      radius: s % 2 === 0 ? 3.6 : 4.3,
-      speed: 0.7 + s * 0.25,
-      offset: (s * Math.PI) / 2,
-      axis: s % 2 === 0 ? 'ring1' : 'ring2'
-    });
-  }
-
-  // ------------------------------------------------------------------------
-  // B. 3D LIGHTS
-  // ------------------------------------------------------------------------
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+  // Orbiting dynamic point lights
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.45);
   scene.add(ambientLight);
 
-  const mouseLight = new THREE.PointLight(0x10b981, 3.2, 40);
-  mouseLight.position.set(5, 5, 12);
-  scene.add(mouseLight);
+  const emeraldLight = new THREE.PointLight(0x10b981, 3.4, 50);
+  emeraldLight.position.set(10, 8, 12);
+  scene.add(emeraldLight);
 
-  const rimLight = new THREE.PointLight(0x38bdf8, 2.4, 35);
-  rimLight.position.set(-14, -8, 8);
-  scene.add(rimLight);
+  const cyanLight = new THREE.PointLight(0x38bdf8, 2.8, 50);
+  cyanLight.position.set(-12, -8, 8);
+  scene.add(cyanLight);
 
-  // ------------------------------------------------------------------------
-  // C. VOLUMETRIC BACKGROUND PARTICLE FIELD
-  // ------------------------------------------------------------------------
-  function createGlowDotTexture() {
-    const c = document.createElement('canvas');
-    c.width = 64;
-    c.height = 64;
-    const ctx = c.getContext('2d');
-    const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 30);
-    grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
-    grad.addColorStop(0.25, 'rgba(16, 185, 129, 0.85)');
-    grad.addColorStop(0.65, 'rgba(56, 189, 248, 0.3)');
-    grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, 64, 64);
-    const texture = new THREE.CanvasTexture(c);
-    texture.generateMipmaps = false;
-    texture.minFilter = THREE.LinearFilter;
-    return texture;
-  }
+  // 3D Geometry: Futuristic Wireframe Icosahedron & Glowing Inner Core
+  const icosaGroup = new THREE.Group();
 
-  const particleTexture = createGlowDotTexture();
-  const particleCount = 200;
-  const positions = new Float32Array(particleCount * 3);
-  const basePositions = [];
-  const colors = new Float32Array(particleCount * 3);
+  // Outer Wireframe Lattice
+  const outerGeom = new THREE.IcosahedronGeometry(7.5, 2);
+  const outerMat = new THREE.MeshStandardMaterial({
+    color: 0x52525b,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.32,
+    roughness: 0.2,
+    metalness: 0.8
+  });
+  const outerMesh = new THREE.Mesh(outerGeom, outerMat);
+  icosaGroup.add(outerMesh);
 
-  const emeraldColor = new THREE.Color(0x10b981);
-  const cyanColor = new THREE.Color(0x38bdf8);
-  const slateColor = new THREE.Color(0x71717a);
+  // Inner Solid Core with Fresnel glow
+  const innerGeom = new THREE.IcosahedronGeometry(4.2, 1);
+  const innerMat = new THREE.MeshStandardMaterial({
+    color: 0x18181b,
+    emissive: 0x064e3b,
+    emissiveIntensity: 0.55,
+    roughness: 0.25,
+    metalness: 0.75,
+    flatShading: true
+  });
+  const innerMesh = new THREE.Mesh(innerGeom, innerMat);
+  icosaGroup.add(innerMesh);
+
+  // Floating Constellation Particle Field
+  const particleCount = 280;
+  const particleGeom = new THREE.BufferGeometry();
+  const particlePositions = new Float32Array(particleCount * 3);
+  const particleScales = new Float32Array(particleCount);
 
   for (let i = 0; i < particleCount; i++) {
-    const x = (Math.random() - 0.5) * 44;
-    const y = (Math.random() - 0.5) * 26;
-    const z = (Math.random() - 0.5) * 18 - 4;
-    positions[i * 3] = x;
-    positions[i * 3 + 1] = y;
-    positions[i * 3 + 2] = z;
-    basePositions.push({ x, y, z });
+    const r = THREE.MathUtils.randFloat(8, 28);
+    const theta = THREE.MathUtils.randFloat(0, Math.PI * 2);
+    const phi = THREE.MathUtils.randFloat(0, Math.PI);
 
-    const rnd = Math.random();
-    const col = rnd < 0.45 ? emeraldColor : rnd < 0.75 ? slateColor : cyanColor;
-    colors[i * 3] = col.r;
-    colors[i * 3 + 1] = col.g;
-    colors[i * 3 + 2] = col.b;
+    particlePositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+    particlePositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+    particlePositions[i * 3 + 2] = r * Math.cos(phi);
+    particleScales[i] = THREE.MathUtils.randFloat(0.5, 2.2);
   }
 
-  const particleGeometry = new THREE.BufferGeometry();
-  particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  particleGeom.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+  particleGeom.setAttribute('scale', new THREE.BufferAttribute(particleScales, 1));
 
-  const particleMaterial = new THREE.PointsMaterial({
-    size: 0.65,
-    map: particleTexture,
-    vertexColors: true,
+  const particleMat = new THREE.PointsMaterial({
+    color: 0xa1a1aa,
+    size: 0.14,
     transparent: true,
-    opacity: 0.75,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false
+    opacity: 0.55
   });
-
-  const particleSystem = new THREE.Points(particleGeometry, particleMaterial);
+  const particleSystem = new THREE.Points(particleGeom, particleMat);
   scene.add(particleSystem);
 
-  // ------------------------------------------------------------------------
-  // D. INTERACTION: CLICK & DRAG ROTATION WITH MOMENTUM
-  // ------------------------------------------------------------------------
-  let isDragging = false;
-  let prevPointer = { x: 0, y: 0 };
-  let angularVel = { x: 0.002, y: 0.004 };
-  let mouseNorm = { x: 0, y: 0 };
-
-  canvas.addEventListener('pointerdown', (e) => {
-    isDragging = true;
-    prevPointer = { x: e.clientX, y: e.clientY };
-  });
-
-  window.addEventListener('pointermove', (e) => {
-    mouseNorm.x = (e.clientX / window.innerWidth) * 2 - 1;
-    mouseNorm.y = -(e.clientY / window.innerHeight) * 2 + 1;
-
-    // Follow light in 3D
-    mouseLight.position.x = mouseNorm.x * 16 + gyroGroup.position.x;
-    mouseLight.position.y = mouseNorm.y * 10 + gyroGroup.position.y;
-    mouseLight.position.z = 12;
-
-    if (isDragging) {
-      const deltaX = e.clientX - prevPointer.x;
-      const deltaY = e.clientY - prevPointer.y;
-      angularVel.y = deltaX * 0.006;
-      angularVel.x = deltaY * 0.006;
-      gyroGroup.rotation.y += angularVel.y;
-      gyroGroup.rotation.x += angularVel.x;
-      prevPointer = { x: e.clientX, y: e.clientY };
+  // Positioned directly behind the profile picture (pfp)
+  function updateIcosaPosition() {
+    if (window.innerWidth < 768) {
+      icosaGroup.position.set(0, -3, -8);
+      icosaGroup.scale.set(0.7, 0.7, 0.7);
+    } else {
+      icosaGroup.position.set(7.5, 0.5, -4);
+      icosaGroup.scale.set(1, 1, 1);
     }
-  }, { passive: true });
+  }
+  updateIcosaPosition();
+  scene.add(icosaGroup);
 
-  window.addEventListener('pointerup', () => {
-    isDragging = false;
-  });
+  // Mouse Interactivity with smooth lerping
+  let targetMouseX = 0;
+  let targetMouseY = 0;
+  let currentMouseX = 0;
+  let currentMouseY = 0;
+
+  window.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth) * 2 - 1;
+    const y = -(e.clientY / window.innerHeight) * 2 + 1;
+    targetMouseX = x * 1.8;
+    targetMouseY = y * 1.8;
+  }, { passive: true });
 
   // Handle Resize
   function onResize() {
@@ -284,11 +167,11 @@ function initThreeJSHero() {
     camera.updateProjectionMatrix();
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-    updateGyroPosition();
+    updateIcosaPosition();
   }
   window.addEventListener('resize', onResize, { passive: true });
 
-  // Tab & Visibility Performance Sleep
+  // Performance: Pause when offscreen or hidden
   let isIntersecting = true;
   let isTabActive = true;
   let animId = null;
@@ -317,51 +200,27 @@ function initThreeJSHero() {
     animId = requestAnimationFrame(animate);
     if (!isIntersecting || !isTabActive) return;
 
-    const time = clock.getElapsedTime();
+    const elapsedTime = clock.getElapsedTime();
 
-    // Inertial rotation & friction damping
-    if (!isDragging) {
-      gyroGroup.rotation.y += angularVel.y;
-      gyroGroup.rotation.x += angularVel.x;
-      angularVel.y *= 0.965;
-      angularVel.x *= 0.965;
+    // Lerp mouse
+    currentMouseX += (targetMouseX - currentMouseX) * 0.05;
+    currentMouseY += (targetMouseY - currentMouseY) * 0.05;
 
-      // Base idle drift
-      gyroGroup.rotation.y += 0.003;
-      gyroGroup.rotation.x += Math.sin(time * 0.5) * 0.001;
-    }
+    // Rotate 3D Geometry
+    icosaGroup.rotation.y = elapsedTime * 0.18 + currentMouseX * 0.35;
+    icosaGroup.rotation.x = elapsedTime * 0.12 + currentMouseY * 0.35;
+    innerMesh.rotation.y = -elapsedTime * 0.28;
+    innerMesh.rotation.z = elapsedTime * 0.15;
 
-    // Gimbal ring internal counter-rotations
-    ring1.rotation.z = time * 0.4;
-    ring2.rotation.z = -time * 0.35;
-    ring3.rotation.z = time * 0.15;
-    icoMesh.rotation.y = time * 0.15;
-    wireMesh.rotation.y = time * 0.15;
+    // Orbit point lights
+    emeraldLight.position.x = Math.sin(elapsedTime * 0.8) * 14 + 5;
+    emeraldLight.position.y = Math.cos(elapsedTime * 0.6) * 10;
+    cyanLight.position.x = -Math.cos(elapsedTime * 0.7) * 14;
+    cyanLight.position.z = Math.sin(elapsedTime * 0.5) * 10;
 
-    // Satellites orbiting
-    satellites.forEach(s => {
-      const angle = time * s.speed + s.offset;
-      if (s.axis === 'ring1') {
-        s.mesh.position.set(Math.cos(angle) * s.radius, Math.sin(angle) * s.radius, 0);
-      } else {
-        const x = Math.cos(angle) * s.radius;
-        const y = Math.sin(angle) * s.radius * Math.cos(Math.PI / 3);
-        const z = Math.sin(angle) * s.radius * Math.sin(Math.PI / 3);
-        s.mesh.position.set(x, y, z);
-      }
-      s.mesh.rotation.x += 0.03;
-      s.mesh.rotation.y += 0.04;
-    });
-
-    // Organic wave pulsation on particle cloud
-    const posArr = particleGeometry.attributes.position.array;
-    for (let i = 0; i < particleCount; i++) {
-      const i3 = i * 3;
-      const base = basePositions[i];
-      posArr[i3 + 1] = base.y + Math.sin(time * 0.6 + base.x * 0.2) * 0.45;
-      posArr[i3] = base.x + Math.cos(time * 0.4 + base.y * 0.2) * 0.25;
-    }
-    particleGeometry.attributes.position.needsUpdate = true;
+    // Particle field gentle drift
+    particleSystem.rotation.y = elapsedTime * 0.04;
+    particleSystem.rotation.x = Math.sin(elapsedTime * 0.03) * 0.1;
 
     renderer.render(scene, camera);
   }
@@ -731,12 +590,6 @@ function initGSAPAnimations() {
       duration: 0.5,
       ease: 'back.out(1.5)'
     }, '-=0.35')
-    .from('.hero-3d-hint', {
-      scale: 0.85,
-      opacity: 0,
-      duration: 0.5,
-      ease: 'back.out(1.5)'
-    }, '-=0.35')
     .from('.hero-title', {
       y: 30,
       opacity: 0,
@@ -902,7 +755,7 @@ function initGSAPAnimations() {
 function initMagneticButtons() {
   if (!window.matchMedia('(pointer: fine)').matches || window.innerWidth < 1024) return;
 
-  const buttons = document.querySelectorAll('.btn-primary, .btn-fiverr, .status-badge, .hero-3d-hint');
+  const buttons = document.querySelectorAll('.btn-primary, .btn-fiverr, .status-badge');
 
   buttons.forEach(btn => {
     btn.addEventListener('mousemove', (e) => {

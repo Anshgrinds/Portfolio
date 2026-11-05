@@ -1150,46 +1150,7 @@ footer {
   will-change: transform;
 }
 
-/* Hero 3D Hint Badge */
-.hero-3d-hint {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.35rem 0.85rem;
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.28);
-  border-radius: var(--radius-full);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: #10b981;
-  box-shadow: 0 0 16px rgba(16, 185, 129, 0.15);
-  user-select: none;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: all 0.25s ease;
-}
-
-.hero-3d-hint:hover {
-  background: rgba(16, 185, 129, 0.15);
-  border-color: #10b981;
-  transform: translateY(-1px);
-}
-
-.hero-3d-hint .hint-dot {
-  width: 6px;
-  height: 6px;
-  background-color: #10b981;
-  border-radius: 50%;
-  box-shadow: 0 0 8px #10b981;
-  animation: pulse-glow 2s infinite ease-in-out;
-}
-
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.3); }
-}
-
-/* Portrait Visual Cybernetic 3D Frame */
+/* Portrait Visual Frame */
 .hero-visual {
   perspective: 1200px;
 }
@@ -1201,50 +1162,15 @@ footer {
   aspect-ratio: 1;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--border);
   background: var(--bg-card);
-  transform-style: preserve-3d;
-  box-shadow: 0 24px 50px -15px rgba(0, 0, 0, 0.85), 0 0 35px rgba(16, 185, 129, 0.12);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.85);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .portrait-wrapper:hover {
   border-color: rgba(16, 185, 129, 0.4);
-  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.9), 0 0 45px rgba(16, 185, 129, 0.25);
-}
-
-.portrait-corner {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  z-index: 10;
-  pointer-events: none;
-  border-color: #10b981;
-}
-.portrait-corner.top-left { top: 10px; left: 10px; border-top: 2px solid; border-left: 2px solid; }
-.portrait-corner.top-right { top: 10px; right: 10px; border-top: 2px solid; border-right: 2px solid; }
-.portrait-corner.bottom-left { bottom: 10px; left: 10px; border-bottom: 2px solid; border-left: 2px solid; }
-.portrait-corner.bottom-right { bottom: 10px; right: 10px; border-bottom: 2px solid; border-right: 2px solid; }
-
-.portrait-3d-badge {
-  position: absolute;
-  bottom: 14px;
-  left: 50%;
-  transform: translateX(-50%) translateZ(25px);
-  background: rgba(9, 9, 11, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  color: #10b981;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  padding: 0.35rem 0.85rem;
-  border-radius: var(--radius-full);
-  white-space: nowrap;
-  letter-spacing: 0.05em;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.7);
-  z-index: 10;
-  pointer-events: none;
+  box-shadow: 0 28px 55px -15px rgba(0, 0, 0, 0.9), 0 0 30px rgba(16, 185, 129, 0.15);
 }
 
 /* 3D Perspective Card Tilt & Dynamic Sheen */
