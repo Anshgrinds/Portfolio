@@ -221,14 +221,24 @@ nav {
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: grab;
   z-index: 0;
-  opacity: 0.75;
+  opacity: 0.9;
+}
+
+#hero-three-canvas:active {
+  cursor: grabbing;
 }
 
 .hero .container {
   position: relative;
   z-index: 1;
+  pointer-events: none;
+}
+
+.hero-content, .hero-visual {
+  pointer-events: auto;
 }
 
 .hero-grid {
@@ -1116,6 +1126,298 @@ footer {
 
   .mobile-toggle {
     display: block;
+  }
+}
+
+/* ==========================================================================
+   ADVANCED 3D SPATIAL UI/UX SYSTEM
+   ========================================================================== */
+
+/* Spatial Ambient Light Follower */
+#spatial-ambient-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.09) 0%, rgba(56, 189, 248, 0.04) 38%, transparent 70%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  filter: blur(40px);
+  transition: opacity 0.5s ease;
+  will-change: transform;
+}
+
+/* Hero 3D Hint Badge */
+.hero-3d-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #10b981;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.15);
+  user-select: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
+}
+
+.hero-3d-hint:hover {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: #10b981;
+  transform: translateY(-1px);
+}
+
+.hero-3d-hint .hint-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+/* Portrait Visual Cybernetic 3D Frame */
+.hero-visual {
+  perspective: 1200px;
+}
+
+.portrait-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--bg-card);
+  transform-style: preserve-3d;
+  box-shadow: 0 24px 50px -15px rgba(0, 0, 0, 0.85), 0 0 35px rgba(16, 185, 129, 0.12);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.portrait-wrapper:hover {
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.9), 0 0 45px rgba(16, 185, 129, 0.25);
+}
+
+.portrait-corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  z-index: 10;
+  pointer-events: none;
+  border-color: #10b981;
+}
+.portrait-corner.top-left { top: 10px; left: 10px; border-top: 2px solid; border-left: 2px solid; }
+.portrait-corner.top-right { top: 10px; right: 10px; border-top: 2px solid; border-right: 2px solid; }
+.portrait-corner.bottom-left { bottom: 10px; left: 10px; border-bottom: 2px solid; border-left: 2px solid; }
+.portrait-corner.bottom-right { bottom: 10px; right: 10px; border-bottom: 2px solid; border-right: 2px solid; }
+
+.portrait-3d-badge {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%) translateZ(25px);
+  background: rgba(9, 9, 11, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #10b981;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* 3D Perspective Card Tilt & Dynamic Sheen */
+.project-card, .skill-card, .metric-item, .contact-box {
+  transform-style: preserve-3d;
+  position: relative;
+  transition: transform 0.15s ease-out, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-3d-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 4;
+}
+
+.project-card .project-thumb,
+.project-card .project-body {
+  transform-style: preserve-3d;
+}
+
+.project-card:hover .project-title {
+  transform: translateZ(14px);
+  transition: transform 0.25s ease;
+}
+
+.project-card:hover .project-tags {
+  transform: translateZ(18px);
+  transition: transform 0.25s ease;
+}
+
+.project-card:hover .project-footer {
+  transform: translateZ(16px);
+  transition: transform 0.25s ease;
+}
+
+/* ==========================================================================
+   INTERACTIVE 3D WEBGL SHADER & MESH LAB
+   ========================================================================== */
+.weblab-container {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  background: radial-gradient(circle at 50% 50%, #15151c 0%, #09090c 100%);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.85), 0 16px 36px -12px rgba(0,0,0,0.7);
+}
+
+#weblab-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+}
+
+#weblab-canvas:active {
+  cursor: grabbing;
+}
+
+.weblab-hud-top {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 10;
+  pointer-events: none;
+  flex-wrap: wrap;
+}
+
+.hud-pill {
+  background: rgba(9, 9, 11, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 0.28rem 0.65rem;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  letter-spacing: 0.04em;
+}
+
+.hud-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+
+.weblab-hint {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(9, 9, 11, 0.88);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #10b981;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.35rem 0.95rem;
+  border-radius: var(--radius-full);
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+}
+
+.shader-controls {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.control-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.shader-btn-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.shader-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.shader-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-hover);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.shader-btn.active {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: #10b981;
+  color: #10b981;
+  font-weight: 600;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.2);
+}
+
+@media (max-width: 860px) {
+  .weblab-container {
+    height: 380px;
   }
 }
 

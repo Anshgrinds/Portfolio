@@ -22,6 +22,9 @@
   <!-- Top Scroll Progress -->
   <div id="scroll-progress" aria-hidden="true"></div>
 
+  <!-- Spatial 3D Ambient Light Follower -->
+  <div id="spatial-ambient-glow" aria-hidden="true"></div>
+
   <!-- Navigation -->
   <header>
     <div class="container">
@@ -57,9 +60,15 @@
     <div class="container">
       <div class="hero-grid">
         <div class="hero-content">
-          <div class="status-badge">
-            <span class="status-dot"></span>
-            Available for freelance & select projects
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.25rem;">
+            <div class="status-badge">
+              <span class="status-dot"></span>
+              Available for freelance & select projects
+            </div>
+            <div class="hero-3d-hint" id="hero-3d-hint">
+              <span class="hint-dot"></span>
+              <span>3D Gyroscope • Drag to Spin</span>
+            </div>
           </div>
 
           <h1 class="hero-title">
@@ -80,7 +89,12 @@
 
         <div class="hero-visual">
           <div class="portrait-wrapper">
+            <div class="portrait-corner top-left"></div>
+            <div class="portrait-corner top-right"></div>
+            <div class="portrait-corner bottom-left"></div>
+            <div class="portrait-corner bottom-right"></div>
             <img src="Profile.jpeg" alt="Ansh Jha">
+            <div class="portrait-3d-badge">3D & Systems Architect</div>
           </div>
         </div>
       </div>
@@ -548,6 +562,7 @@
         <button class="breakdown-tab-btn" data-breakdown="hut">🏡 Ancient Forest Hut</button>
         <button class="breakdown-tab-btn" data-breakdown="asteroid">☄️ Asteroid Impact VFX</button>
         <button class="breakdown-tab-btn" data-breakdown="island">🏝️ Floating Island Archipelago</button>
+        <button class="breakdown-tab-btn" data-breakdown="weblab" id="tab-btn-weblab" style="border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.08); color: #10b981; font-weight: 600;">🔮 Interactive 3D WebGL Lab</button>
       </div>
 
       <!-- Panel 1: Tuborg Can Commercial (Active by Default) -->
@@ -749,6 +764,53 @@
             <button class="btn btn-secondary" data-lightbox data-lightbox-src="assets/blender/island_render.png" data-lightbox-title="Floating Island — Cycles Render (Full Resolution)" data-lightbox-desc="Full resolution render from Blender 5.2">
               Inspect Full-Res Render ↗
             </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 6: Interactive 3D WebGL Shader & Mesh Lab -->
+      <div class="comparison-wrapper breakdown-panel" id="breakdown-weblab" style="display: none;">
+        <div class="weblab-container">
+          <canvas id="weblab-canvas" title="Click & drag to orbit, scroll to zoom"></canvas>
+          <div class="weblab-hud-top">
+            <span class="hud-pill"><span class="hud-dot"></span> LIVE WEBGL 2.0</span>
+            <span class="hud-pill" id="weblab-polycount">VERTICES: 4,096</span>
+            <span class="hud-pill" id="weblab-fps">60 FPS</span>
+          </div>
+          <div class="weblab-hint">
+            <span>🖱️ Click & Drag to Orbit 360° • Scroll to Zoom</span>
+          </div>
+        </div>
+
+        <div class="comparison-details">
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <span class="chip">Three.js WebGL</span>
+            <span class="chip">Real-Time PBR</span>
+            <span class="chip">Interactive 3D</span>
+            <span class="chip">Shader Lab</span>
+            <span class="chip">60 FPS GPU</span>
+          </div>
+          <h3>Interactive 3D Mesh & Shader Lab</h3>
+          <p>
+            Experience live hardware-accelerated 3D rendering right in the browser. Rotate procedural mathematical geometries, inspect specular reflections, and dynamically switch between physically based rendering (PBR) shader presets in real time.
+          </p>
+
+          <div class="shader-controls">
+            <div class="control-label">Shader Material Preset:</div>
+            <div class="shader-btn-group">
+              <button class="shader-btn active" data-shader="chrome">💎 OptiX Chrome</button>
+              <button class="shader-btn" data-shader="emerald">🟢 Emerald Crystal</button>
+              <button class="shader-btn" data-shader="wireframe">⚡ Cyber Matrix</button>
+              <button class="shader-btn" data-shader="magma">🌋 Basalt Fissure</button>
+            </div>
+
+            <div class="control-label" style="margin-top: 1.25rem;">Geometry & View Controls:</div>
+            <div class="shader-btn-group">
+              <button class="shader-btn" id="btn-toggle-wire">📐 Wireframe: OFF</button>
+              <button class="shader-btn active" id="btn-toggle-rotate">🔄 Auto-Rotate: ON</button>
+              <button class="shader-btn" id="btn-switch-mesh">🎲 Switch Mesh</button>
+              <button class="shader-btn" id="btn-reset-cam">🎯 Reset View</button>
+            </div>
           </div>
         </div>
       </div>
